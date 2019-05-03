@@ -20,6 +20,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.export.ExportedBean;
 
 import javax.annotation.Nonnull;
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -66,8 +67,8 @@ public class ExecutorBuildStep extends Builder implements Serializable {
         String secret = String.format("Bearer %s", cred.getSecretKey().getPlainText());
         MultipartBody body = Unirest.post(appApiUrl)
             .header("authorization", secret)
-            .field("app", this.applicationUnderTest)
-            .field("testApp", this.testApplication)
+            .field("app", new File(this.applicationUnderTest))
+            .field("testApp", new File(this.testApplication))
             .field("executionType", this.frameworkType)
             .field("runningType", this.runningType)
             .field("deviceQueries", this.deviceQuery);
